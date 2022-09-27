@@ -7,6 +7,9 @@
 #include <sstream>
 #include <cmath>
 
+#include "impl/VertexBuffer.h"
+#include "stb_image/stb_image.h"
+
 struct ShaderProgramSource
 {
     std::string VertexSource;
@@ -90,8 +93,6 @@ uint32_t CreateShader(const std::string& vertexShader, const std::string& fragme
     return program;
 }
 
-
-
 int main(void)
 {
     GLFWwindow* window;
@@ -132,10 +133,7 @@ int main(void)
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    unsigned int buffer;
-    glGenBuffers(1, &buffer); // Generate a single buffer
-    glBindBuffer(GL_ARRAY_BUFFER, buffer); // Select the buffer to be drawn
-    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW); // Add the data to the buffer
+    VertexBuffer vbo(positions, sizeof(positions));
 
     // Create a layout for the buffer we created (positons)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 24, 0); // links the buffer with the vao
@@ -149,6 +147,7 @@ int main(void)
                             shaderSource.FragmentSource);
     glUseProgram(shaderProgram);
 
+
     glBindVertexArray(0);
 
     // Loop until the user closes the window
@@ -157,11 +156,6 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT); // Render here
 
         glBindVertexArray(vao);
-
-        // float time = glfwGetTime();
-        // float redValue = (sin(time) + 0.5f) / 2.0f;
-        // int uniformLocation = glGetUniformLocation(shader, "triangleColor");
-        // glUniform4f(uniformLocation, redValue, 0.5f, 0.2f, 1.0f);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
