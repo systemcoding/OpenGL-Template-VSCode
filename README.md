@@ -1,4 +1,5 @@
-# OpenGL-Template-VSCode
+# OpenGL-Template-VSCode (For Linux!!)
+Tested only in Linux!
 
 A OpenGL Template with shaders that is configured to run with Visual Studio Code. Also make sure Visual Studio Code is installed!
 
